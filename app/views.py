@@ -2,6 +2,7 @@ from django.shortcuts import render
 from urllib import request
 from django.contrib.auth.models import User
 from app.models import Caracteristique, Commentaire, Image, Lieu, RepCommentaire, Utilisateur
+from app.myPagination import MyPagination
 from app.serializers import CaracteristiqueSerializer, CommentaireSerializer, ImageSerializer, LieuxSerializer, RepCommentaireSerializer, UserSerializer, UtilisateurSerializer
 from rest_framework import  viewsets,permissions
 from rest_framework.filters import OrderingFilter
@@ -23,12 +24,14 @@ class UtilisateurViewSet(viewsets.ModelViewSet):
     filterset_fields = ['id', 'user']
 class LieuViewSet(viewsets.ModelViewSet):
     queryset = Lieu.objects.all()
+    pagination_class=MyPagination
     serializer_class = LieuxSerializer
     filterset_fields = ['id', 'nom','secteur','departement','region','type']
     filter_backends = [DjangoFilterBackend,OrderingFilter]
     ordering_fields = ('created_at','update_at')
 class CommentaireViewSet(viewsets.ModelViewSet):
     queryset = Commentaire.objects.all()
+    pagination_class=MyPagination
     serializer_class = CommentaireSerializer
     filter_backends = [DjangoFilterBackend,OrderingFilter]
     ordering_fields = ('created_at','update_at')
