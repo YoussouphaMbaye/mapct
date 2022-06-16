@@ -17,6 +17,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 #django env
 from dotenv import load_dotenv
 load_dotenv()  
+# Configure Django App for Heroku.
+import django_heroku
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -27,7 +30,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -59,6 +62,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     "corsheaders.middleware.CorsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'mapctapi.urls'
@@ -189,3 +193,4 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET =  str(os.getenv('CIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'username','password','email'
 ]
+django_heroku.settings(locals())
